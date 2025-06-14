@@ -1,20 +1,26 @@
 import heapq
 
+def min_cost_to_connect_cables(cables):
+    if not cables:
+        return 0
 
-def sort_through_heap(iterable):
-    heap = []
-    sorted_list = []
-    
-    for value in iterable:
-        heapq.heappush(heap, -value)
-        
-    while heap:
-        sorted_list.append(-heapq.heappop(heap))
-        
-    return sorted_list
+    heapq.heapify(cables)
+    total_cost = 0
+
+    while len(cables) > 1:
+        first = heapq.heappop(cables)
+        second = heapq.heappop(cables)
+
+        cost = first + second
+        total_cost += cost
+
+        heapq.heappush(cables, cost)
+
+        print(f"З'єднуємо {first} + {second} = {cost} → Поточні витрати: {total_cost}")
 
 
-nums = [5, 3, 8, 1, 2, 7, 30, 20 , 11, 100]
-desc_sorted = sort_through_heap(nums)
-print('Descending sorted: ', desc_sorted)
-    
+    return total_cost
+
+cables = [5, 6, 3, 8, 1, 2, 7, 30, 20, 11, 100]
+result = min_cost_to_connect_cables(cables)
+print("Мінімальні витрати на з'єднання кабелів:", result)
